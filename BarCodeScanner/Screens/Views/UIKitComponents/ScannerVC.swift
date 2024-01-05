@@ -8,9 +8,9 @@
 import UIKit
 import AVFoundation
 
-enum CameraError: String {
-    case invalidDeviceInput = "Something is wrong with camera"
-    case invalidScannedValue = "The value scanned is invalid"
+enum CameraError {
+    case invalidDeviceInput
+    case invalidScannedValue
 }
 
 protocol ScannerVCDelegate: AnyObject {
@@ -83,7 +83,9 @@ final class ScannerVC: UIViewController {
         previewLayer?.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer!)
         
-        captureSession.startRunning()
+        DispatchQueue.global().async { [weak self] in
+            self?.captureSession.startRunning()
+        }
     }
 }
 
